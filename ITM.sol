@@ -1,13 +1,14 @@
 pragma solidity ^0.8.0;
-import "../node_modules/@openzeppelin/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoId.sol";
-contract ITM is ERC721PresetMinterPauserAutoId {
-    constructor() public
-    ERC721PresetMinterPauserAutoId("ITrustMachines", "ITM", "https://www.frank.hk/token/")  
-    {}
-    // This allows the minter to update the tokenURI after it's been minted.
-    // To disable this, delete this function.
-    function setTokenURI(uint256 tokenId, string memory tokenURI) public {
-        require(hasRole(MINTER_ROLE, _msgSender()), "web3 CLI: must have minter role to update tokenURI");
-        setTokenURI(tokenId, tokenURI);
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC1155/presets/ERC1155PresetMinterPauser.sol";
+contract ITM is ERC1155PresetMinterPauser {
+    
+    uint256 public constant ITM = 0;
+    uint256 public constant WBZD = 1;
+    
+    constructor() ERC1155PresetMinterPauser( "https://api.frank.hk/api/nft/demo/1155/marvel/{id}.json") {
+        _mint(msg.sender, ITM, 10**18, "");
+        _mint(msg.sender, WBZD, 1, "");
     }
+    
 }
